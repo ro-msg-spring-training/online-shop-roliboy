@@ -15,6 +15,11 @@
 	<description>Spring training project</description>
 	<properties>
 		<java.version>16</java.version>
+		<flyway.user></flyway.user>
+		<flyway.password></flyway.password>
+		<flyway.schemas>app-db</flyway.schemas>
+		<flyway.url>jdbc:h2:~/Documents/h2/shop;DB_CLOSE_ON_EXIT=FALSE</flyway.url>
+<!--		<flyway.locations>classpath:db/migration</flyway.locations>-->
 	</properties>
 	<dependencies>
 		<dependency>
@@ -29,10 +34,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.flywaydb</groupId>-->
-<!--			<artifactId>flyway-core</artifactId>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -69,6 +74,10 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
