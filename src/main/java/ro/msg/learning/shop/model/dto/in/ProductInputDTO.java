@@ -20,14 +20,14 @@ public class ProductInputDTO {
     private String imageUrl;
 
     public Product toProduct() {
-        var product = new Product();
-        product.setName(this.name);
-        product.setDescription(this.description);
-        product.setPrice(this.price);
-        product.setWeight(this.weight);
-        product.setCategory(null);
-        product.setSupplier(null);
-        product.setImageUrl(this.imageUrl);
-        return product;
+        return Product.builder()
+                .name(this.name)
+                .description(this.description)
+                .price(this.price)
+                .weight(this.weight)
+                .category(null)
+                .supplier(null)
+                .imageUrl(this.imageUrl)
+                .build();
     }
 }
