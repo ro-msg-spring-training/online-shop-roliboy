@@ -1,4 +1,4 @@
-package ro.msg.learning.shop.controller;
+package ro.msg.learning.shop.controller.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
