@@ -1,16 +1,17 @@
-package ro.msg.learning.shop.model;
+package ro.msg.learning.shop.model.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Address {
+public class Address implements Serializable {
     private String country;
     private String city;
     private String county;

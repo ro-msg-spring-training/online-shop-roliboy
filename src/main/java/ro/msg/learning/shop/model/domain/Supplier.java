@@ -1,4 +1,4 @@
-package ro.msg.learning.shop.model;
+package ro.msg.learning.shop.model.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,10 +12,6 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Customer extends GenericEntity {
-    private String firstName;
-    private String lastName;
-    private String username;
-    private String password;
-    private String emailAddress;
+public class Supplier extends GenericEntity {
+    private String name;
 }

@@ -1,11 +1,10 @@
-package ro.msg.learning.shop.model;
+package ro.msg.learning.shop.model.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
 @Entity
@@ -13,8 +12,10 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Location extends GenericEntity {
-    private String name;
-    @Embedded
-    private Address address;
+public class Customer extends GenericEntity {
+    private String firstName;
+    private String lastName;
+    private String username;
+    private String password;
+    private String emailAddress;
 }

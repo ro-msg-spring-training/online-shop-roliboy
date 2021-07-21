@@ -1,22 +1,18 @@
-package ro.msg.learning.shop.model;
+package ro.msg.learning.shop.model.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Data
 @EqualsAndHashCode(callSuper = true)
-//TODO: composite key for this?
 public class OrderDetail extends GenericEntity {
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ORDER_ID")
     private Order order;
     @ManyToOne(fetch = FetchType.EAGER)
     private Product product;

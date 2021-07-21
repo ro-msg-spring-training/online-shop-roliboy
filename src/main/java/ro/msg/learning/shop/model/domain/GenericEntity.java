@@ -1,10 +1,11 @@
-package ro.msg.learning.shop.model;
+package ro.msg.learning.shop.model.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
@@ -14,6 +15,6 @@ import javax.persistence.MappedSuperclass;
 @Data
 public abstract class GenericEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 }
