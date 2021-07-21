@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.exception.ProductCategoryNotFoundException;
 import ro.msg.learning.shop.exception.ProductNotFoundException;
 import ro.msg.learning.shop.exception.SupplierNotFoundException;
-import ro.msg.learning.shop.model.Product;
-import ro.msg.learning.shop.model.dto.ProductDTO;
+import ro.msg.learning.shop.model.domain.Product;
+import ro.msg.learning.shop.model.dto.out.ProductOutputDTO;
 import ro.msg.learning.shop.persistence.ProductCategoryRepository;
 import ro.msg.learning.shop.persistence.ProductRepository;
 import ro.msg.learning.shop.persistence.SupplierRepository;
@@ -23,19 +23,19 @@ public class ProductService {
     @Autowired
     SupplierRepository supplierRepository;
 
-    public Collection<ProductDTO> list() {
+    public Collection<ProductOutputDTO> list() {
         return productRepository.findAll().stream()
-                .map(ProductDTO::fromProduct)
+                .map(ProductOutputDTO::fromProduct)
                 .toList();
     }
 
-    public ProductDTO retrieve(Integer id) {
+    public ProductOutputDTO retrieve(Integer id) {
         return productRepository.findById(id)
-                .map(ProductDTO::fromProduct)
+                .map(ProductOutputDTO::fromProduct)
                 .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
-    public ProductDTO create(Product product, Integer productCategoryId, Integer supplierId) {
+    public ProductOutputDTO create(Product product, Integer productCategoryId, Integer supplierId) {
         var productCategory = productCategoryRepository.findById(productCategoryId)
                 .orElseThrow(() -> new ProductCategoryNotFoundException(productCategoryId));
 
@@ -45,11 +45,11 @@ public class ProductService {
         product.setCategory(productCategory);
         product.setSupplier(supplier);
 
-        return ProductDTO.fromProduct(productRepository.save(product));
+        return ProductOutputDTO.fromProduct(productRepository.save(product));
     }
 
     @Transactional
-    public ProductDTO update(Integer id, Product product, Integer productCategoryId, Integer supplierId) {
+    public ProductOutputDTO update(Integer id, Product product, Integer productCategoryId, Integer supplierId) {
         var productCategory = productCategoryRepository.findById(productCategoryId)
                 .orElseThrow(() -> new ProductCategoryNotFoundException(productCategoryId));
 
@@ -72,12 +72,12 @@ public class ProductService {
                 })
                 .orElseThrow(() -> new ProductNotFoundException(id));
 
-        return ProductDTO.fromProduct(updatedProduct);
+        return ProductOutputDTO.fromProduct(updatedProduct);
     }
 
-    public ProductDTO destroy(Integer id) {
+    public ProductOutputDTO destroy(Integer id) {
         var product = productRepository.findById(id)
-                .map(ProductDTO::fromProduct)
+                .map(ProductOutputDTO::fromProduct)
                 .orElseThrow(() -> new ProductNotFoundException(id));
         productRepository.deleteById(id);
         return product;

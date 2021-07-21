@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.msg.learning.shop.model.dto.ProductDTO;
+import ro.msg.learning.shop.model.dto.in.ProductInputDTO;
+import ro.msg.learning.shop.model.dto.out.ProductOutputDTO;
 import ro.msg.learning.shop.service.ProductService;
 
 import java.util.Collection;
@@ -19,7 +20,7 @@ public class ProductController {
             value = "",
             produces = {"application/json"}
     )
-    public ResponseEntity<Collection<ProductDTO>> list() {
+    public ResponseEntity<Collection<ProductOutputDTO>> list() {
         return new ResponseEntity<>(
                 productService.list(),
                 HttpStatus.OK
@@ -31,10 +32,10 @@ public class ProductController {
             consumes = {"application/json"},
             produces = {"application/json"}
     )
-    public ResponseEntity<ProductDTO> create(@RequestBody ProductDTO productDTO) {
-        var product = productDTO.toProduct();
-        var productCategoryId = productDTO.getCategoryId();
-        var supplierId = productDTO.getSupplierId();
+    public ResponseEntity<ProductOutputDTO> create(@RequestBody ProductInputDTO productInputDTO) {
+        var product = productInputDTO.toProduct();
+        var productCategoryId = productInputDTO.getCategoryId();
+        var supplierId = productInputDTO.getSupplierId();
         return new ResponseEntity<>(
                 productService.create(product, productCategoryId, supplierId),
                 HttpStatus.CREATED
@@ -45,7 +46,7 @@ public class ProductController {
             value = "/{id}",
             produces = {"application/json"}
     )
-    public ResponseEntity<ProductDTO> retrieve(@PathVariable Integer id) {
+    public ResponseEntity<ProductOutputDTO> retrieve(@PathVariable Integer id) {
         return new ResponseEntity<>(
                 productService.retrieve(id),
                 HttpStatus.OK
@@ -57,10 +58,10 @@ public class ProductController {
             consumes = {"application/json"},
             produces = {"application/json"}
     )
-    public ResponseEntity<ProductDTO> update(@PathVariable Integer id, @RequestBody ProductDTO productDTO) {
-        var product = productDTO.toProduct();
-        var productCategoryId = productDTO.getCategoryId();
-        var supplierId = productDTO.getSupplierId();
+    public ResponseEntity<ProductOutputDTO> update(@PathVariable Integer id, @RequestBody ProductInputDTO productInputDTO) {
+        var product = productInputDTO.toProduct();
+        var productCategoryId = productInputDTO.getCategoryId();
+        var supplierId = productInputDTO.getSupplierId();
         return new ResponseEntity<>(
                 productService.update(id, product, productCategoryId, supplierId),
                 HttpStatus.OK
@@ -71,7 +72,7 @@ public class ProductController {
             value = "/{id}",
             produces = {"application/json"}
     )
-    public ResponseEntity<ProductDTO> destroy(@PathVariable Integer id) {
+    public ResponseEntity<ProductOutputDTO> destroy(@PathVariable Integer id) {
         return new ResponseEntity<>(
                 productService.destroy(id),
                 // TODO: change to NO_CONTENT?
