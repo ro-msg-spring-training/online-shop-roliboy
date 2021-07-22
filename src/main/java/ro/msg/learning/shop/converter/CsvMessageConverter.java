@@ -20,7 +20,7 @@ public class CsvMessageConverter extends AbstractHttpMessageConverter<Object> {
     }
 
     protected boolean supports(Class<?> klass) {
-        return true;
+        return false;
     }
 
     @Override
