@@ -1,15 +1,15 @@
 package ro.msg.learning.shop.model.dto.in;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import javax.persistence.Entity;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class OrderDetailInputDTO {
+public class StockInputDTO {
     private Integer productId;
+    private Integer locationId;
     private Integer quantity;
 }

@@ -1,6 +1,7 @@
 package ro.msg.learning.shop.model.dto.in;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ro.msg.learning.shop.model.domain.Product;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class ProductInputDTO {
     private String name;
     private String description;
@@ -21,13 +23,13 @@ public class ProductInputDTO {
 
     public Product toProduct() {
         return Product.builder()
-                .name(this.name)
-                .description(this.description)
-                .price(this.price)
-                .weight(this.weight)
+                .name(name)
+                .description(description)
+                .price(price)
+                .weight(weight)
                 .category(null)
                 .supplier(null)
-                .imageUrl(this.imageUrl)
+                .imageUrl(imageUrl)
                 .build();
     }
 }
