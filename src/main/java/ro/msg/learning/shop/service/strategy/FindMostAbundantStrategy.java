@@ -1,23 +1,19 @@
 package ro.msg.learning.shop.service.strategy;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import ro.msg.learning.shop.exception.OrderNotFulfilledException;
 import ro.msg.learning.shop.model.OrderLocation;
-import ro.msg.learning.shop.model.domain.Location;
 import ro.msg.learning.shop.model.domain.OrderDetail;
 import ro.msg.learning.shop.model.domain.Stock;
-import ro.msg.learning.shop.persistence.LocationRepository;
 import ro.msg.learning.shop.persistence.StockRepository;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 
+@RequiredArgsConstructor
 public class FindMostAbundantStrategy implements FindLocationStrategy {
-    @Autowired
-    StockRepository stockRepository;
+    private final StockRepository stockRepository;
 
     @Override
     public Collection<OrderLocation> getOrderLocations(Collection<OrderDetail> orderDetails) {

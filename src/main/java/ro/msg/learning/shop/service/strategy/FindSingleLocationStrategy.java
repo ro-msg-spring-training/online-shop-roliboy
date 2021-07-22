@@ -1,6 +1,6 @@
 package ro.msg.learning.shop.service.strategy;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import ro.msg.learning.shop.exception.OrderNotFulfilledException;
 import ro.msg.learning.shop.model.OrderLocation;
 import ro.msg.learning.shop.model.domain.Location;
@@ -10,9 +10,9 @@ import ro.msg.learning.shop.persistence.LocationRepository;
 import java.util.Collection;
 import java.util.Comparator;
 
+@RequiredArgsConstructor
 public class FindSingleLocationStrategy implements FindLocationStrategy {
-    @Autowired
-    LocationRepository locationRepository;
+    private final LocationRepository locationRepository;
 
     @Override
     public Collection<OrderLocation> getOrderLocations(Collection<OrderDetail> orderDetails) {
