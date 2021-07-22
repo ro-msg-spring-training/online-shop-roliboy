@@ -4,13 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.exception.ProductNotFoundException;
 import ro.msg.learning.shop.model.domain.Address;
+import ro.msg.learning.shop.model.domain.Customer;
 import ro.msg.learning.shop.model.domain.Order;
 import ro.msg.learning.shop.model.domain.OrderDetail;
 import ro.msg.learning.shop.model.dto.in.OrderDetailInputDTO;
-import ro.msg.learning.shop.persistence.OrderDetailRepository;
-import ro.msg.learning.shop.persistence.OrderRepository;
-import ro.msg.learning.shop.persistence.ProductRepository;
-import ro.msg.learning.shop.persistence.StockRepository;
+import ro.msg.learning.shop.persistence.*;
 import ro.msg.learning.shop.service.strategy.FindLocationStrategy;
 
 import javax.transaction.Transactional;
@@ -22,22 +20,34 @@ public class OrderService {
     @Autowired
     OrderRepository orderRepository;
     @Autowired
+    CustomerRepository customerRepository;
+    @Autowired
     OrderDetailRepository orderDetailRepository;
     @Autowired
     ProductRepository productRepository;
     @Autowired
     StockRepository stockRepository;
     @Autowired
+    SendEmailService sendEmailService;
+    @Autowired
     FindLocationStrategy findLocationStrategy;
+
 
     // TODO: DTO bad
     @Transactional
     public Order create(LocalDateTime timestamp, Address address, Collection<OrderDetailInputDTO> orderDetailsList) {
+        // TODO: get customer object from currently authorized user
+        var customer = customerRepository.save(
+                Customer.builder()
+                        .emailAddress("roliboy@protonmail.com")
+                        .firstName("nagy")
+                        .lastName("roland")
+                        .build());
+
         var order = Order.builder()
                 .createdAt(timestamp)
                 .address(address)
-                // TODO: customer
-                .customer(null)
+                .customer(customer)
                 // TODO: shippedFrom
                 .shippedFrom(null)
                 .build();
@@ -66,6 +76,8 @@ public class OrderService {
 
         orderRepository.save(order);
         orderElements.forEach(orderDetail -> orderDetailRepository.save(orderDetail));
+
+        sendEmailService.sendConfirmationMail(order);
 
         return order;
     }

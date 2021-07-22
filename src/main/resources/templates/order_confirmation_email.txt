@@ -1,0 +1,7 @@
+confirmation email for order no. #{id}
+
+Hi #{customer.lastName},
+
+You receive this email because the order you placed at #{createdAt.toString()} will be delivered shortly.
+
+Thank you for your purchase!
