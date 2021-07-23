@@ -1,6 +1,7 @@
 package ro.msg.learning.shop.model.domain;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 @Table(name = "`ORDER`")
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Order extends GenericEntity {

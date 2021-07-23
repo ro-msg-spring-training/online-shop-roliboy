@@ -16,6 +16,7 @@ public class JsonConverter {
         try {
             return objectWriter.writeValueAsString(element);
         } catch (JsonProcessingException e) {
+//            TODO: error handling
             e.printStackTrace();
             return "";
         }

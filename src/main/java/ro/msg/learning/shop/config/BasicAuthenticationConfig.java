@@ -13,9 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class BasicAuthenticationConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
-
-    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("admin").password("{noop}admin").roles("ADMIN");
@@ -23,19 +20,13 @@ public class BasicAuthenticationConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .httpBasic()
-                .and()
+        http
+                .csrf().disable()
                 .authorizeRequests()
-                .anyRequest().authenticated();
-//        http
-//                .csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/h2-console").hasRole("ADMIN")
-//                .antMatchers("/api/users").hasRole("ADMIN")
-//                .antMatchers("/**").permitAll()
-//                .and()
-//                .httpBasic()
-//                .authenticationEntryPoint(authenticationEntryPoint);
+                .antMatchers("/h2-console").hasRole("ADMIN")
+                .antMatchers("/api/users").hasRole("ADMIN")
+                .antMatchers("/**").permitAll()
+                .and()
+                .httpBasic();
     }
 }

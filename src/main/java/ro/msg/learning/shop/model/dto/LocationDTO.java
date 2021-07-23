@@ -1,4 +1,4 @@
-package ro.msg.learning.shop.model.dto.in;
+package ro.msg.learning.shop.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,14 +11,7 @@ import ro.msg.learning.shop.model.domain.Location;
 @AllArgsConstructor
 @Data
 @Builder
-public class LocationInputDTO {
+public class LocationDTO {
     private String name;
     private Address address;
-
-    public Location toLocation() {
-        return Location.builder()
-                .name(name)
-                .address(address)
-                .build();
-    }
 }

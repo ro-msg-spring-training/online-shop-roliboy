@@ -1,18 +1,18 @@
 package ro.msg.learning.shop.service;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.olingo.odata2.api.ODataCallback;
 import org.apache.olingo.odata2.jpa.processor.api.ODataJPAContext;
 import org.apache.olingo.odata2.jpa.processor.api.ODataJPAServiceFactory;
 import org.apache.olingo.odata2.jpa.processor.api.exception.ODataJPARuntimeException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Component;
 
 
 @Component
+@RequiredArgsConstructor
 public class JPAServiceFactory extends ODataJPAServiceFactory {
-    @Autowired
-    private LocalContainerEntityManagerFactoryBean factory;
+    private final LocalContainerEntityManagerFactoryBean factory;
 
 
     @Override

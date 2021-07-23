@@ -1,18 +1,18 @@
 package ro.msg.learning.shop.service;
 
-import org.hibernate.action.internal.CollectionAction;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import ro.msg.learning.shop.converter.LocationDTOConverter;
+import ro.msg.learning.shop.converter.ProductDTOConverter;
+import ro.msg.learning.shop.converter.StockDTOConverter;
 import ro.msg.learning.shop.exception.LocationNotFoundException;
 import ro.msg.learning.shop.exception.ProductNotFoundException;
-import ro.msg.learning.shop.model.domain.*;
-import ro.msg.learning.shop.model.dto.in.LocationInputDTO;
-import ro.msg.learning.shop.model.dto.in.ProductInputDTO;
-import ro.msg.learning.shop.model.dto.in.StockInputDTO;
-import ro.msg.learning.shop.model.dto.out.LocationOutputDTO;
-import ro.msg.learning.shop.model.dto.out.ProductOutputDTO;
-import ro.msg.learning.shop.model.dto.out.StockOutputDTO;
+import ro.msg.learning.shop.model.domain.ProductCategory;
+import ro.msg.learning.shop.model.domain.Stock;
+import ro.msg.learning.shop.model.dto.LocationDTO;
+import ro.msg.learning.shop.model.dto.ProductDTO;
+import ro.msg.learning.shop.model.dto.StockDTO;
 import ro.msg.learning.shop.persistence.LocationRepository;
 import ro.msg.learning.shop.persistence.ProductRepository;
 import ro.msg.learning.shop.persistence.StockRepository;
@@ -21,26 +21,22 @@ import java.util.Collection;
 
 @Profile("test")
 @Service
+@RequiredArgsConstructor
 public class PopulateDatabaseService {
-    @Autowired
-    StockRepository stockRepository;
+    private final StockRepository stockRepository;
+    private final ProductRepository productRepository;
+    private final LocationRepository locationRepository;
 
-    @Autowired
-    ProductRepository productRepository;
-
-    @Autowired
-    LocationRepository locationRepository;
-
-    public Collection<LocationOutputDTO> insertLocations(Collection<LocationInputDTO> locations) {
+    public Collection<LocationDTO> insertLocations(Collection<LocationDTO> locations) {
         return locationRepository.saveAll(locations.stream()
-                .map(LocationInputDTO::toLocation)
+                .map(LocationDTOConverter::toLocation)
                 .toList())
                 .stream()
-                .map(LocationOutputDTO::fromLocation)
+                .map(LocationDTOConverter::fromLocation)
                 .toList();
     }
 
-    public Collection<StockOutputDTO> insertStocks(Collection<StockInputDTO> stocks) {
+    public Collection<StockDTO> insertStocks(Collection<StockDTO> stocks) {
         return stockRepository.saveAll(stocks.stream()
                 .map(stockInputDTO -> Stock.builder()
                         .product(productRepository.findById(stockInputDTO.getProductId())
@@ -51,17 +47,17 @@ public class PopulateDatabaseService {
                         .build())
                 .toList())
                 .stream()
-                .map(StockOutputDTO::fromStock)
+                .map(StockDTOConverter::fromStock)
                 .toList();
     }
 
-    public Collection<ProductOutputDTO> insertProducts(Collection<ProductInputDTO> products) {
+    public Collection<ProductDTO> insertProducts(Collection<ProductDTO> products) {
         return productRepository.saveAll(products.stream()
-                .map(ProductInputDTO::toProduct)
+                .map(ProductDTOConverter::toProduct)
                 .toList())
                 .stream()
                 .peek(product -> product.setCategory(new ProductCategory("name", "description")))
-                .map(ProductOutputDTO::fromProduct)
+                .map(ProductDTOConverter::fromProduct)
                 .toList();
     }
 

@@ -1,20 +1,21 @@
 package ro.msg.learning.shop.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ro.msg.learning.shop.model.dto.out.CustomerDetailOutputDTO;
+import ro.msg.learning.shop.converter.CustomerDetailDTOConverter;
+import ro.msg.learning.shop.model.dto.CustomerDetailDTO;
 import ro.msg.learning.shop.persistence.CustomerRepository;
 
 import java.util.Collection;
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailService {
-    @Autowired
-    CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
-    public Collection<CustomerDetailOutputDTO> listUsers() {
+    public Collection<CustomerDetailDTO> listUsers() {
         return customerRepository.findAll().stream()
-                .map(CustomerDetailOutputDTO::fromCustomer)
+                .map(CustomerDetailDTOConverter::fromCustomer)
                 .toList();
     }
 }

@@ -1,4 +1,4 @@
-package ro.msg.learning.shop.model.dto.in;
+package ro.msg.learning.shop.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class OrderDetailInputDTO {
+public class OrderDetailDTO {
     private Integer productId;
     private Integer quantity;
 }

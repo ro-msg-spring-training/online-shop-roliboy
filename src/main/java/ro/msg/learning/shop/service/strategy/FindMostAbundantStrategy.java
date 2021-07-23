@@ -1,7 +1,6 @@
 package ro.msg.learning.shop.service.strategy;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import ro.msg.learning.shop.exception.OrderNotFulfilledException;
 import ro.msg.learning.shop.model.OrderLocation;
 import ro.msg.learning.shop.model.domain.OrderDetail;

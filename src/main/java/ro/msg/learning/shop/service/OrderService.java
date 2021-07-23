@@ -1,13 +1,13 @@
 package ro.msg.learning.shop.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.exception.ProductNotFoundException;
 import ro.msg.learning.shop.model.domain.Address;
 import ro.msg.learning.shop.model.domain.Customer;
 import ro.msg.learning.shop.model.domain.Order;
 import ro.msg.learning.shop.model.domain.OrderDetail;
-import ro.msg.learning.shop.model.dto.in.OrderDetailInputDTO;
+import ro.msg.learning.shop.model.dto.OrderDetailDTO;
 import ro.msg.learning.shop.persistence.*;
 import ro.msg.learning.shop.service.strategy.FindLocationStrategy;
 
@@ -16,26 +16,19 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
-    @Autowired
-    OrderRepository orderRepository;
-    @Autowired
-    CustomerRepository customerRepository;
-    @Autowired
-    OrderDetailRepository orderDetailRepository;
-    @Autowired
-    ProductRepository productRepository;
-    @Autowired
-    StockRepository stockRepository;
-    @Autowired
-    SendEmailService sendEmailService;
-    @Autowired
-    FindLocationStrategy findLocationStrategy;
-
+    private final OrderRepository orderRepository;
+    private final CustomerRepository customerRepository;
+    private final OrderDetailRepository orderDetailRepository;
+    private final ProductRepository productRepository;
+    private final StockRepository stockRepository;
+    private final SendEmailService sendEmailService;
+    private final FindLocationStrategy findLocationStrategy;
 
     // TODO: DTO bad
     @Transactional
-    public Order create(LocalDateTime timestamp, Address address, Collection<OrderDetailInputDTO> orderDetailsList) {
+    public Order create(LocalDateTime timestamp, Address address, Collection<OrderDetailDTO> orderDetailsList) {
         // TODO: get customer object from currently authorized user
         var customer = customerRepository.save(
                 Customer.builder()
@@ -75,7 +68,7 @@ public class OrderService {
         });
 
         orderRepository.save(order);
-        orderElements.forEach(orderDetail -> orderDetailRepository.save(orderDetail));
+        orderElements.forEach(orderDetailRepository::save);
 
         sendEmailService.sendConfirmationMail(order);
 

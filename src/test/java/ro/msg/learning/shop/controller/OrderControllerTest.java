@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ro.msg.learning.shop.converter.JsonConverter;
 import ro.msg.learning.shop.model.domain.Address;
-import ro.msg.learning.shop.model.dto.in.*;
+import ro.msg.learning.shop.model.dto.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -41,18 +41,18 @@ class OrderControllerTest {
 
     @BeforeEach
     public void setup() throws Exception {
-        var firstLocation = LocationInputDTO.builder()
+        var firstLocation = LocationDTO.builder()
                 .name("location 1")
                 .address(new Address("a", "b", "c", "d"))
                 .build();
-        var secondLocation = LocationInputDTO.builder()
+        var secondLocation = LocationDTO.builder()
                 .name("location 2")
                 .address(new Address("e", "f", "g", "h"))
                 .build();
 
         var locations = List.of(firstLocation, secondLocation);
 
-        var firstProduct = ProductInputDTO.builder()
+        var firstProduct = ProductDTO.builder()
                 .categoryId(0)
                 .description("description 1")
                 .imageUrl("image url 1")
@@ -62,7 +62,7 @@ class OrderControllerTest {
                 .weight(1.0)
                 .build();
 
-        var secondProduct = ProductInputDTO.builder()
+        var secondProduct = ProductDTO.builder()
                 .categoryId(0)
                 .description("description 2")
                 .imageUrl("image url 2")
@@ -75,25 +75,25 @@ class OrderControllerTest {
         var products = List.of(firstProduct, secondProduct);
 
 
-        var firstLocationFirstProduct = StockInputDTO.builder()
+        var firstLocationFirstProduct = StockDTO.builder()
                 .locationId(1)
                 .productId(1)
                 .quantity(1)
                 .build();
 
-        var firstLocationSecondProduct = StockInputDTO.builder()
+        var firstLocationSecondProduct = StockDTO.builder()
                 .locationId(1)
                 .productId(2)
                 .quantity(1)
                 .build();
 
-        var secondLocationFirstProduct = StockInputDTO.builder()
+        var secondLocationFirstProduct = StockDTO.builder()
                 .locationId(2)
                 .productId(1)
                 .quantity(1)
                 .build();
 
-        var secondLocationSecondProduct = StockInputDTO.builder()
+        var secondLocationSecondProduct = StockDTO.builder()
                 .locationId(2)
                 .productId(2)
                 .quantity(1)
@@ -120,16 +120,16 @@ class OrderControllerTest {
     }
 
     @Test
-    void createValidOrder_productsInStock_orderIsCreated() throws Exception {
-        var order = OrderInputDTO.builder()
+    void createOrderWhenProductsInStock() throws Exception {
+        var order = OrderDTO.builder()
                 .timestamp(LocalDateTime.now())
                 .address(new Address("a", "b", "c", "d"))
                 .products(List.of(
-                        OrderDetailInputDTO.builder()
+                        OrderDetailDTO.builder()
                                 .productId(1)
                                 .quantity(1)
                                 .build(),
-                        OrderDetailInputDTO.builder()
+                        OrderDetailDTO.builder()
                                 .productId(2)
                                 .quantity(1)
                                 .build()))
@@ -144,16 +144,16 @@ class OrderControllerTest {
     }
 
     @Test
-    void createValidOrder_productsOutOfStock_orderIsNotCreated() throws Exception {
-        var order = OrderInputDTO.builder()
+    void createOrderProductsOutOfStock() throws Exception {
+        var order = OrderDTO.builder()
                 .timestamp(LocalDateTime.now())
                 .address(new Address("a", "b", "c", "d"))
                 .products(List.of(
-                        OrderDetailInputDTO.builder()
+                        OrderDetailDTO.builder()
                                 .productId(1)
                                 .quantity(100)
                                 .build(),
-                        OrderDetailInputDTO.builder()
+                        OrderDetailDTO.builder()
                                 .productId(2)
                                 .quantity(100)
                                 .build()))

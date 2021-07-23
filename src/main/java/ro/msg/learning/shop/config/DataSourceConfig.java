@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 
 @Configuration
 public class DataSourceConfig {
-    @Profile("prod")
+    @Profile("dev")
     @Bean
     public DataSource getDevDataSource() {
         DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
@@ -26,7 +26,6 @@ public class DataSourceConfig {
         DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName("org.h2.Driver");
         dataSourceBuilder.url("jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=false");
-//        dataSourceBuilder.url("jdbc:h2:~/Documents/h2/testshop;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=false");
         dataSourceBuilder.username("");
         dataSourceBuilder.password("");
         return dataSourceBuilder.build();

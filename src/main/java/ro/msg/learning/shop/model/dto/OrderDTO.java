@@ -1,6 +1,5 @@
-package ro.msg.learning.shop.model.dto.in;
+package ro.msg.learning.shop.model.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,8 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class OrderInputDTO {
+public class OrderDTO {
     private LocalDateTime timestamp;
     private Address address;
-    private List<OrderDetailInputDTO> products;
+    private List<OrderDetailDTO> products;
 }

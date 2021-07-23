@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
+import ro.msg.learning.shop.model.domain.GenericEntity;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -20,11 +21,12 @@ public class CsvMessageConverter extends AbstractHttpMessageConverter<Object> {
     }
 
     protected boolean supports(Class<?> klass) {
-        return false;
+//        TODO: test to see if this actually works
+        return GenericEntity.class.isAssignableFrom(klass);
     }
 
     @Override
-    protected Object readInternal(Class<?> clazz, HttpInputMessage inputMessage) throws HttpMessageNotReadableException {
+    protected Object readInternal(Class<?> klass, HttpInputMessage inputMessage) throws HttpMessageNotReadableException {
         return null;
     }
 
@@ -33,12 +35,12 @@ public class CsvMessageConverter extends AbstractHttpMessageConverter<Object> {
         output.getHeaders().setContentType(MEDIA_TYPE);
         var out = output.getBody();
 
-        // TODO: check for http not found error and stuff, otherwise this will try to convert it to csv
         if (object instanceof Collection<?> objects) {
             var instance = objects.stream().findFirst();
             if (instance.isPresent()) {
                 CsvConverter.toCsv(instance.get().getClass(), objects, out);
             } else {
+//                TODO: decide what to do when the collection has no elements
                 System.out.println("csv, n-ai csv");
             }
         } else {

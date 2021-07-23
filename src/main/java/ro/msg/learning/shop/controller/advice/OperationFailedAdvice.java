@@ -9,10 +9,9 @@ import ro.msg.learning.shop.exception.OrderNotFulfilledException;
 
 @ControllerAdvice
 public class OperationFailedAdvice {
-    // TODO: better status code
     @ResponseBody
     @ExceptionHandler(OrderNotFulfilledException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
     String orderNotFulfilled(OrderNotFulfilledException exception) {
         return exception.getMessage();
     }
