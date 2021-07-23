@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<JPAEDMMappingModel xmlns="http://www.apache.org/olingo/odata2/jpa/processor/api/model/mapping">
+    <PersistenceUnit name="default">
+        <JPAEntityTypes>
+            <JPAEntityType name="Customer" exclude="true">
+                <JPAAttributes/>
+                <JPARelationships/>
+            </JPAEntityType>
+            <JPAEntityType name="Location" exclude="true">
+                <JPAAttributes/>
+                <JPARelationships/>
+            </JPAEntityType>
+            <JPAEntityType name="Order">
+                <EDMEntityType>Order</EDMEntityType>
+                <EDMEntitySet>Orders</EDMEntitySet>
+                <JPAAttributes>
+                    <JPAAttribute name="createdAt" exclude="true" />
+                </JPAAttributes>
+                <JPARelationships/>
+            </JPAEntityType>
+            <JPAEntityType name="OrderDetail">
+                <EDMEntityType>OrderDetail</EDMEntityType>
+                <EDMEntitySet>OrderDetails</EDMEntitySet>
+                <JPAAttributes/>
+                <JPARelationships/>
+            </JPAEntityType>
+            <JPAEntityType name="Product">
+                <EDMEntityType>Product</EDMEntityType>
+                <EDMEntitySet>Products</EDMEntitySet>
+                <JPAAttributes/>
+                <JPARelationships/>
+            </JPAEntityType>
+            <JPAEntityType name="ProductCategory" exclude="true">
+                <JPAAttributes/>
+                <JPARelationships/>
+            </JPAEntityType>
+            <JPAEntityType name="Revenue" exclude="true">
+                <JPAAttributes>
+                    <JPAAttribute name="date" exclude="true" />
+                </JPAAttributes>
+                <JPARelationships/>
+            </JPAEntityType>
+            <JPAEntityType name="Stock" exclude="true">
+                <JPAAttributes/>
+                <JPARelationships/>
+            </JPAEntityType>
+            <JPAEntityType name="Supplier" exclude="true">
+                <JPAAttributes/>
+                <JPARelationships/>
+            </JPAEntityType>
+        </JPAEntityTypes>
+        <JPAEmbeddableTypes>
+<!--            <JPAEmbeddableType name="Address">-->
+<!--                <EDMComplexType>AddressInfo</EDMComplexType>-->
+<!--                <JPAAttributes>-->
+<!--                    <JPAAttribute name="houseNumber">Number</JPAAttribute>-->
+<!--                    <JPAAttribute name="streetName">Street</JPAAttribute>-->
+<!--                </JPAAttributes>-->
+<!--            </JPAEmbeddableType>-->
+        </JPAEmbeddableTypes>
+    </PersistenceUnit>
+</JPAEDMMappingModel>
