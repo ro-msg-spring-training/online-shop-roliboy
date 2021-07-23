@@ -23,13 +23,19 @@ public class BasicAuthenticationConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/h2-console").hasRole("ADMIN")
-                .antMatchers("/api/users").hasRole("ADMIN")
-                .antMatchers("/**").permitAll()
-                .and()
+        http.csrf().disable()
                 .httpBasic()
-                .authenticationEntryPoint(authenticationEntryPoint);
+                .and()
+                .authorizeRequests()
+                .anyRequest().authenticated();
+//        http
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/h2-console").hasRole("ADMIN")
+//                .antMatchers("/api/users").hasRole("ADMIN")
+//                .antMatchers("/**").permitAll()
+//                .and()
+//                .httpBasic()
+//                .authenticationEntryPoint(authenticationEntryPoint);
     }
 }

@@ -21,12 +21,12 @@ public class FormAuthenticationConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/h2-console").hasRole("ADMIN")
                 .antMatchers("/api/users").hasRole("ADMIN")
                 .antMatchers("/**").permitAll()
                 .and()
-                .formLogin()
-                .loginPage("/login").failureUrl("/login-error");
+                .formLogin();
     }
 }
