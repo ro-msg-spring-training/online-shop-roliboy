@@ -24,7 +24,7 @@ public class BasicAuthenticationConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/h2-console").hasRole("ADMIN")
-                .antMatchers("/api/users").hasRole("ADMIN")
+                .antMatchers("/users").hasRole("ADMIN")
                 .antMatchers("/**").permitAll()
                 .and()
                 .httpBasic();
