@@ -6,7 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
-import ro.msg.learning.shop.model.domain.GenericEntity;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -22,7 +21,8 @@ public class CsvMessageConverter extends AbstractHttpMessageConverter<Object> {
 
     protected boolean supports(Class<?> klass) {
 //        TODO: test to see if this actually works
-        return GenericEntity.class.isAssignableFrom(klass);
+//        return GenericEntity.class.isAssignableFrom(klass);
+        return false;
     }
 
     @Override

@@ -48,7 +48,7 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductDTO update(Integer id, Product product, Integer productCategoryId, Integer supplierId) {
+    public ProductDTO update(Product product, Integer productCategoryId, Integer supplierId) {
         var productCategory = productCategoryRepository.findById(productCategoryId)
                 .orElseThrow(() -> new ProductCategoryNotFoundException(productCategoryId));
 
@@ -58,20 +58,12 @@ public class ProductService {
         product.setCategory(productCategory);
         product.setSupplier(supplier);
 
-        var updatedProduct = productRepository.findById(id)
-                .map(oldProduct -> {
-                    oldProduct.setName(product.getName());
-                    oldProduct.setDescription(product.getDescription());
-                    oldProduct.setPrice(product.getPrice());
-                    oldProduct.setWeight(product.getWeight());
-                    oldProduct.setCategory(product.getCategory());
-                    oldProduct.setSupplier(product.getSupplier());
-                    oldProduct.setImageUrl(product.getImageUrl());
-                    return oldProduct;
-                })
-                .orElseThrow(() -> new ProductNotFoundException(id));
-
-        return ProductDTOConverter.fromProduct(updatedProduct);
+        if (productRepository.update(product) == 0) {
+            throw new ProductNotFoundException(product.getId());
+        } else {
+            var updatedProduct = productRepository.getById(product.getId());
+            return ProductDTOConverter.fromProduct(updatedProduct);
+        }
     }
 
     public ProductDTO delete(Integer id) {

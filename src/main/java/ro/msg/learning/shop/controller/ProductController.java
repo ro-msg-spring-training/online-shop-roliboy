@@ -46,10 +46,11 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> update(@PathVariable Integer id, @RequestBody ProductDTO productDTO) {
         var product = ProductDTOConverter.toProduct(productDTO);
+        product.setId(id);
         var productCategoryId = productDTO.getCategoryId();
         var supplierId = productDTO.getSupplierId();
         return new ResponseEntity<>(
-                productService.update(id, product, productCategoryId, supplierId),
+                productService.update(product, productCategoryId, supplierId),
                 HttpStatus.OK
         );
     }
@@ -58,8 +59,7 @@ public class ProductController {
     public ResponseEntity<ProductDTO> delete(@PathVariable Integer id) {
         return new ResponseEntity<>(
                 productService.delete(id),
-                // TODO: change to NO_CONTENT?
-                HttpStatus.OK
+                HttpStatus.NO_CONTENT
         );
     }
 }

@@ -4,7 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -27,12 +30,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //TODO: populate database with dbunit instead of using the rest api
-//NOTE: tests work if ran one by one (otherwise one of them will fail because the /drop doesn't work
-//      and entities get inserted again)
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 @WebAppConfiguration
+@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 class OrderControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -107,14 +109,14 @@ class OrderControllerTest {
 
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        mockMvc.perform(get("/api/test/populate/drop"));
-        mockMvc.perform(post("/api/test/populate/locations")
+        mockMvc.perform(get("/test/populate/drop"));
+        mockMvc.perform(post("/test/populate/locations")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonConverter.toJson(locations)));
-        mockMvc.perform(post("/api/test/populate/products")
+        mockMvc.perform(post("/test/populate/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonConverter.toJson(products)));
-        mockMvc.perform(post("/api/test/populate/stocks")
+        mockMvc.perform(post("/test/populate/stocks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonConverter.toJson(stocks)));
     }
@@ -127,15 +129,15 @@ class OrderControllerTest {
                 .products(List.of(
                         OrderDetailDTO.builder()
                                 .productId(1)
-                                .quantity(1)
+                                .quantity(0)
                                 .build(),
                         OrderDetailDTO.builder()
                                 .productId(2)
-                                .quantity(1)
+                                .quantity(0)
                                 .build()))
                 .build();
 
-        this.mockMvc.perform(post("/api/orders")
+        this.mockMvc.perform(post("/orders")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonConverter.toJson(order)))
                 .andDo(print())
@@ -159,7 +161,7 @@ class OrderControllerTest {
                                 .build()))
                 .build();
 
-        this.mockMvc.perform(post("/api/orders")
+        this.mockMvc.perform(post("/orders")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonConverter.toJson(order)))
                 .andExpect(status().is4xxClientError());
